@@ -12,6 +12,11 @@ const xss = require("xss-clean");
 const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
 
+// SWAGGER
+const swaggerUI = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
+
 // database
 const connectDB = require("./db/connect");
 
@@ -37,6 +42,10 @@ app.use(mongoSanitize());
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("<h1>Ledger API</h1> <a href='/api-docs'>Documentation</a>");
+});
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use("/api/v1/ledger", ledgerRouter);
 app.use("/api/v1/transaction", transactionRouter);
 app.get("/test", (req, res) => {
@@ -45,7 +54,7 @@ app.get("/test", (req, res) => {
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 7000;
+const port = process.env.PORT || 5000;
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URL);

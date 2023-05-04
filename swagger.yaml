@@ -1,0 +1,196 @@
+openapi: 3.0.0
+info:
+  title: Ledger_Project
+  contact: {}
+  version: "1.0"
+servers:
+  - url: https://ledger-server-test.onrender.com/api/v1
+    variables: {}
+paths:
+  /ledger/login:
+    post:
+      tags:
+        - LedgerAPI
+      summary: CREATE_LEDGER
+      operationId: CREATE_LEDGER
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CREATE_LEDGER_REQUEST"
+                - example:
+                    username: user1
+            example:
+              username: user1
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+  /ledger/getBalance:
+    get:
+      tags:
+        - LedgerAPI
+      summary: GET_TOKEN_BALANCE
+      operationId: GET_TOKEN_BALANCE
+      parameters:
+        - name: username
+          in: query
+          description: ""
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            example: user1
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+  /transaction/buyToken:
+    post:
+      tags:
+        - LedgerAPI
+      summary: BUY_TOKEN
+      operationId: BUY_TOKEN
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/BUY_TOKEN_REQUEST"
+                - example:
+                    username: user1
+                    totalToken: 3
+                    note: Pay Refill
+                    totalPrice: 85
+            example:
+              username: user1
+              totalToken: 3
+              note: Pay Refill
+              totalPrice: 85
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+  /transaction/playGame:
+    post:
+      tags:
+        - LedgerAPI
+      summary: PLAY_GAME
+      operationId: PLAY_GAME
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/PLAY_GAME_REQUEST"
+                - example:
+                    username: user1
+                    totalToken: 3
+                    gameName: Mortal Kombat
+            example:
+              username: user1
+              totalToken: 3
+              gameName: Mortal Kombat
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+  /transaction/getTransactions:
+    get:
+      tags:
+        - LedgerAPI
+      summary: GET_TRANSACTIONS
+      operationId: GET_TRANSACTIONS
+      parameters:
+        - name: username
+          in: query
+          description: ""
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            example: user1
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+components:
+  schemas:
+    CREATE_LEDGER_REQUEST:
+      title: CREATE_LEDGER_REQUEST
+      required:
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+      example:
+        username: user1
+    BUY_TOKEN_REQUEST:
+      title: BUY_TOKEN_REQUEST
+      required:
+        - username
+        - totalToken
+        - note
+        - totalPrice
+      type: object
+      properties:
+        username:
+          type: string
+        totalToken:
+          type: integer
+          format: int32
+        note:
+          type: string
+        totalPrice:
+          type: integer
+          format: int32
+      example:
+        username: user1
+        totalToken: 3
+        note: Pay Refill
+        totalPrice: 85
+    PLAY_GAME_REQUEST:
+      title: PLAY_GAME_REQUEST
+      required:
+        - username
+        - totalToken
+        - gameName
+      type: object
+      properties:
+        username:
+          type: string
+        totalToken:
+          type: integer
+          format: int32
+        gameName:
+          type: string
+      example:
+        username: user1
+        totalToken: 3
+        gameName: Mortal Kombat
+tags:
+  - name: LedgerAPI
+    description: ""
